@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block content %}
+{% for message in messages %}
+            <div class="alert text-center {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+                <p class="text-center text-info-emphasis fs-5">  {{ message }}</p>
+            </div>
+        {% endfor %}
+
+        <!-- page-title -->
+        <div class="tf-page-title">
+            <div class="container-full">
+                <div class="heading text-center">Vendor Account</div>
+            </div>
+        </div>
+        <!-- /page-title -->
+        <div id="alert-container"></div> <!-- This must exist in your HTML -->
+
+        <!-- page-cart -->
+        <section class="flat-spacing-11">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <ul class="my-account-nav">
+                            <li><span class="my-account-nav-item active">Dashboard</span></li>
+                            <li><a href="{% url 'vendor-products' user %}" class="my-account-nav-item">Products</a></li>
+                            <li><a href="{% url 'list-product' %}" class="my-account-nav-item">List A product</a></li>
+                            <li><a href="{% url 'orders-received' vendor %}" class="my-account-nav-item">
+                                Orders
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{orders_total}}
+                                      <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                  </a></li>
+                            <li><a href="{% url 'vendor-messages' vendor.slug %}" class="my-account-nav-item">
+                            Messages
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{vendor_messages_count}}
+                                  <span class="visually-hidden">unread messages</span>
+                                </span>
+                              </a></li>
+                            <li><a href="my-account-edit.html" class="my-account-nav-item">Delete Vendor Account</a></li>
+                            <li><a href="login.html" class="my-account-nav-item">Logout</a></li>
+                        </ul>
+                    </div>
+                        
+                    
+                    <div class="col-lg-9">
+                        <div class="my-account-content account-dashboard">
+                            <div class="mb_60">
+                                <h5 class="fw-5 mb_20"><h4 class="heading text-center"> Your messages</h4></h5> 
+                                {% if vendor_messages %}
+                                <form method="post" id="delete-all-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="delete_all">
+                                    <button type="button" class="btn btn-danger delete-all-button">Delete All</button>
+                                </form>
+                                {% endif %}                     
+                                <br>
+                                <div class="row">
+                                    {% for message in vendor_messages %}
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                      <div class="card">
+                                        <div class="card-body">
+                                          <h5 class="card-title">{{message.name|title}}</h5>
+                                          <p class="card-text">{{message.email}}</p>
+                                          <p class="card-text">{{message.message|capfirst}}</p>
+                                          <form method="post" class="delete-single-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="{{message.id}}" name="message">
+                                            <input type="hidden" name="action" value="delete_single">
+                                          <button type="buton" class="btn btn-outline-danger btn-sm delete-single-button">Delete</button>
+                                          </form>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {% endfor %}
+                                  </div>
+                                  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- page-cart -->
+        <script>
+            document.querySelectorAll(".delete-single-button").forEach(button => {
+                button.addEventListener("click", function () {
+                    const form = this.closest(".delete-single-form");
+                    const formData = new FormData(form);
+            
+                    fetch(window.location.href, {
+                        method: "POST",
+                        headers: {
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            form.closest(".card").remove(); // Remove the message card from the DOM
+                            showAlert(data.message, "success");
+                        } else {
+                            showAlert(data.message, "danger");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+            });
+
+            document.querySelector(".delete-all-button").addEventListener("click", function () {
+                const form = document.getElementById("delete-all-form");
+                const formData = new FormData(form);
+            
+                fetch(window.location.href, {
+                    method: "POST",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelectorAll(".card").forEach(card => card.remove()); // Remove all message cards
+                        showAlert(data.message, "success");
+                    } else {
+                        showAlert(data.message, "danger");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+            
+              
+        </script>
+       
+{% endblock content %}

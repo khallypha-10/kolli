@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+        <!-- page-title -->
+        <div class="tf-page-title">
+            <div class="container-full">
+                <div class="heading text-center">My Orders</div>
+            </div>
+        </div>
+        <!-- /page-title -->
+        
+        <!-- page-cart -->
+        <section class="flat-spacing-11">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <ul class="my-account-nav">
+                            <li><span class="my-account-nav-item active">Dashboard</span></li>
+                            <li><a href="{% url 'user-orders' user %}" class="my-account-nav-item">Orders</a></li>
+                            <li><a href="{% url 'edit-user-address' user %}" class="my-account-nav-item">Edit Address</a></li>
+                            <li><a href="{% url 'wishlist' user %}" class="my-account-nav-item">Wishlist</a></li>
+                            {% if vendor %}
+                            <li><a href="{% url 'vendor-profile' user %}" class="my-account-nav-item">Vendor Page</a></li>
+                            {% endif %}
+                            <li><a href="login.html" class="my-account-nav-item">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="my-account-content account-order">
+                            <div class="wrap-account-order">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="fw-6">Order</th>
+                                            <th class="fw-6">Order Date</th>
+                                            <th class="fw-6">Delivered On</th>
+                                            <th class="fw-6">Vendor Accepted</th>
+                                            <th class="fw-6">Total</th>
+                                            <th class="fw-6">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in orders %}
+                                        <tr class="tf-order-item">
+                                            <td>
+                                                {{order.ref_number}}
+                                            </td>
+                                            <td>
+                                                {{order.order_date}}
+                                            </td>
+                                            <td>
+                                                {% if not order.delivered_on %}<i class="fa-solid fa-truck"></i> {% else %}{{order.delivered_on}}{% endif %}
+                                                
+                                            </td>
+                                            {% if not order.canceled  %}
+                                            <td>
+                                                {% if order.vendor_accepted == False %}
+                                                <i class="fa-solid fa-xmark"></i>
+                                                {% else %}
+                                                <i class="fa-solid fa-check"></i>
+                                                {% endif %}
+                                            </td>
+                                            {% else %}
+                                            <td>
+                                                canceled
+                                            </td>
+                                            {% endif %}
+                                            <td>
+                                                ₦{{order.total}} 
+                                            </td>
+                                            <td>
+                                                {% if order.ordered == True %}
+                                                <a href="{% url 'user-orders-detail' order.slug order.ref_number %}" class="p-3 tf-btn btn-fill animate-hover-btn rounded-0 justify-content-center">
+                                                    <span>View</span>
+                                                </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- page-cart -->
+{% endblock content %}

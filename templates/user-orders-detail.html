@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block content %}
+        <!-- page-title -->
+        <div class="tf-page-title">
+            <div class="container-full">
+                <div class="heading text-center">My Order - {{orders.ref_number}}</div>
+            </div>
+        </div>
+        <!-- /page-title -->
+        
+        <!-- page-cart -->
+        <section class="flat-spacing-11">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <ul class="my-account-nav">
+                            <li><span class="my-account-nav-item active">Dashboard</span></li>
+                            <li><a href="{% url 'user-orders' user %}" class="my-account-nav-item">Orders</a></li>
+                            <li><a href="{% url 'edit-user-address' user %}" class="my-account-nav-item">Edit Address</a></li>
+                            <li><a href="{% url 'wishlist' user %}" class="my-account-nav-item">Wishlist</a></li>
+                            {% if vendor %}
+                            <li><a href="{% url 'vendor-profile' user %}" class="my-account-nav-item">Vendor Page</a></li>
+                            {% endif %}
+                            <li><a href="login.html" class="my-account-nav-item">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="wd-form-order">
+
+                            <div class="order-head">
+                                
+                                {% if not orders.canceled  %}
+                                <div class="content">
+                                    {% if orders.delivered == False and orders.vendor_accepted == False %}
+                                    <div class="badge text-bg-info text-wrap">Pending Approval</div>
+                                    {% elif orders.delivered == True and orders.vendor_accepted == True %}
+                                    <div class="badge text-bg-success text-wrap" style="width: 8rem;">
+                                      
+                                    <p class=" fs-5 text-success-emphasis mb-3">Delivered</p></div>
+                                    {% elif orders.vendor_accepted == True %}
+                                    <div class="badge text-bg-success text-wrap">Vendor Approved</div>
+                                    
+                                    {% endif %}
+                                    <h6 class="mt-8 fw-5">Order {{orders.ref_number}}</h6>
+                                </div>
+                                {% else %}
+                                <div class="badge text-bg-danger text-wrap">Canceled</div>
+                                {% endif %}
+                            </div>
+                            <div class="tf-grid-layout md-col-2 gap-15">
+                                <div class="item">
+                                    <div class="text-2 text_black-2">Order Date</div>
+                                    <div class="text-2 mt_4 fw-6">{{orders.order_date}}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="text-2 text_black-2">First Name</div>
+                                    <div class="text-2 mt_4 fw-6">{{orders.address.first_name}}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="text-2 text_black-2">Last Name</div>
+                                    <div class="text-2 mt_4 fw-6">{{orders.address.last_name}}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="text-2 text_black-2">Phone Number</div>
+                                    <div class="text-2 mt_4 fw-6">{{orders.address.phone_number}}</div>
+                                </div>
+                                <div class="item">
+                                    <div class="text-2 text_black-2">Address</div>
+                                    <div class="text-2 mt_4 fw-6">{{orders.address.address}}, {{orders.address.city|capfirst}}, {{orders.address.state|capfirst}}</div>
+                                </div>
+                                {% if orders.address.order_notes %}
+                                <div class="item">
+                                    <div class="text-2 text_black-2">Order Note</div>
+                                    <div class="text-2 mt_4 fw-6">{{orders.address.order_notes}}</div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="widget-tabs style-has-border widget-order-tab">
+                                <ul class="widget-menu-tab">
+                                    <li class="item-title active">
+                                        <span class="inner">Item(s) Details</span>
+                                    </li>
+                                    <li class="item-title">
+                                        <span class="inner">Delivered Details</span>
+                                    </li>
+                                </ul>
+                                <div class="widget-content-tab">
+                                    <div class="widget-content-inner active">
+                                        {% for item in order %}
+                                        <div class="order-head">
+                                            <figure class="img-product">
+                                                <img src="{{item.product.image.url}}" alt="product">
+                                            </figure>
+                                            <div class="content">
+                                                <div class="text-2 fw-6">{{item.product.name}}</div>
+                                                {% if item.product.discount %}
+                                                <div class="mt_4 d-flex align-items-center"><span class="fw-6">Price :</span> <div class="d-flex align-items-center"><p class=" text-decoration-line-through">₦{{item.product.price}} </p> ₦ {{item.product.discounted_price}}</div></div>
+                                                {% else %}
+                                                <div class="mt_4 d-flex "><span class="fw-6">Price :</span>₦{{item.product.price}}</div>
+                                                {% endif %}
+                                                <div class="mt_4"><span class="fw-6">Size :</span> {{item.size}}</div>
+                                                <div class="mt_4"><span class="fw-6">Quantity :</span> {{item.quantity}}</div>
+                                            </div>
+                                        </div>
+                                        
+                                        {% endfor %}
+                                        <ul>
+                                            <li class="d-flex justify-content-between text-2">
+                                                <span>Total Price</span>
+                                                <span class="fw-6">₦ {{total}}</span>
+                                            </li>
+                                            
+                                            <li class="d-flex justify-content-between text-2 mt_8">
+                                                <span>Order Total</span>
+                                                <span class="fw-6">₦ {{total}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="widget-content-inner">
+                                        <p class="text-2 text_success">Thank you Your order has been received</p>
+                                        <ul class="mt_20">
+                                            <li>Order Number : <span class="fw-7">{{orders.ref_number}}</span></li>
+                                            <li>Delivered On : <span class="fw-7">{% if not orders.delivered_on %}
+                                                <i class="fa-solid fa-truck"></i>
+                                                {% else %}
+                                                {{orders.delivered_on}}
+                                                {% endif %}
+                                            </span></li>
+                                            <li>Total : <span class="fw-7">₦ {{total}}</span></li>
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- page-cart -->
+{% endblock content %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+{% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+        <i class="fa-solid fa-thumbs-up"></i> {{ message }}
+    </div>
+{% endfor %}
+
+{% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        <ul class="text-center">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+
+
+
+        <!-- page-title -->
+        <div class="tf-page-title style-2">
+            <div class="container-full">
+                <div class="heading text-center">Log in</div>
+            </div>
+        </div>
+        <!-- /page-title -->
+    
+        <section class="flat-spacing-10">
+            <div class="container">
+                <div class="tf-grid-layout lg-col-2 tf-login-wrap">
+                    <div class="tf-login-form">
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            <h5 class="mb_36">Log in</h5>
+                            <div>
+                                <form class="" id="login-form" action="my-account.html" accept-charset="utf-8">
+                                    <div class="tf-field style-1 mb_15">
+                                        <label for="formGroupExampleInput" class="form-label">Username *</label>
+                                        {{form.username}}
+                                    </div>
+                                    <div class="tf-field style-1 mb_30">
+                                        <label for="formGroupExampleInput" class="form-label">Password *
+                                        {{form.password}}
+                                    </div>
+                                    <div class="mb_20">
+                                        <a href="{% url 'password_reset' %}" class="tf-btn btn-line">Forgot your password?</a>
+                                    </div>
+                                    <div class="">
+                                        <button type="submit" class="tf-btn w-100 radius-3 btn-fill animate-hover-btn justify-content-center">Log in</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tf-login-content">
+                        <h5 class="mb_36">I'm new here</h5>
+                        <p class="mb_20">If you haven't registered, please Sign Up</p>
+                        <a href="{% url 'register' %}" class="tf-btn btn-line">Register<i class="icon icon-arrow1-top-left"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+{% endblock content %}

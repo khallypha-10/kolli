@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+        <!-- page-title -->
+        <div class="tf-page-title">
+            <div class="container-full">
+                <div class="heading text-center">My Orders</div>
+            </div>
+        </div>
+        <!-- /page-title -->
+        
+        <!-- page-cart -->
+        <section class="flat-spacing-11">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <ul class="my-account-nav">
+                            <li><span class="my-account-nav-item active">Dashboard</span></li>
+                            <li><a href="{% url 'vendor-products' user %}" class="my-account-nav-item">Products</a></li>
+                            <li><a href="{% url 'list-product' %}" class="my-account-nav-item">List A product</a></li>
+                            <li><a href="{% url 'orders-received' vendor %}" class="my-account-nav-item">
+                                Orders
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{orders_total}}
+                                      <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                  </a></li>
+                            <li><a href="{% url 'vendor-messages' vendor.slug %}" class="my-account-nav-item">
+                            Messages
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{vendor_messages}}
+                                  <span class="visually-hidden">unread messages</span>
+                                </span>
+                              </a></li>
+                            <li><a href="my-account-edit.html" class="my-account-nav-item">Delete Vendor Account</a></li>
+                            <li><a href="login.html" class="my-account-nav-item">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="my-account-content account-order">
+                            <div class="wrap-account-order">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="fw-6">Order</th>
+                                            <th class="fw-6">Order Date</th>
+                                            <th class="fw-6">Delivered On</th>
+                                            <th class="fw-6">Ordered</th>
+                                            <th class="fw-6">Vendor Accepted</th>
+                                            <th class="fw-6">Total</th>
+                                            <th class="fw-6">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in orders %}
+                                        <tr class="tf-order-item">
+                                            <td>
+                                                {{order.ref_number}}
+                                            </td>
+                                            <td>
+                                                {{order.order_date}}
+                                            </td>
+                                            <td>
+                                                {% if not order.delivered_on %}<i class="fa-solid fa-truck"></i> {% else %}{{order.delivered_on}}{% endif %}
+                                                
+                                            </td>
+                                            <td>
+                                                {% if order.ordered == False %}
+                                                <i class="fa-regular fa-clock"></i>
+                                                {% else %}
+                                                <i class="fa-solid fa-check"></i>
+                                                {% endif %}
+                                            </td>
+                                            {% if not order.canceled  %}
+                                            <td>
+                                                {% if order.vendor_accepted == False %}
+                                                <i class="fa-solid fa-xmark"></i>
+                                                {% else %}
+                                                <i class="fa-solid fa-check"></i>
+                                                {% endif %}
+                                            </td>
+                                            {% else %}
+                                            <td>
+                                                canceled
+                                            </td>
+                                            {% endif %}
+                                            <td>
+                                                ₦{{order.total}}
+                                            </td>
+                                            <td>
+                                                {% if order.ordered == True %}
+                                                <a href="{% url 'order-detail' order.slug order.ref_number %}" class=" p-3 tf-btn btn-fill animate-hover-btn rounded-0 justify-content-center">
+                                                    <span>View</span>
+                                                </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- page-cart -->
+{% endblock content %}

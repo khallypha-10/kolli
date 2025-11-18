@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<section class="pb-4">
+	<div class="bg-white border rounded-5">
+	  
+	  <section class="w-100 p-4 d-flex justify-content-center pb-4">
+
+			<transaction>You are about to pay <b><h4> ₦{{ payment.amount }}</h4> </b> with transaction reference "{{ payment.ref }}" </p>
+			
+
+			<button onclick="payWithPaystack()" class="btn btn-primary btn-block mb-4">Pay</button>
+		</section>
+       
+    </div>
+    
+    
+  </div>
+</section>
+
+
+<script>
+    function payWithPaystack() {
+        let currency = "NGN"; // Currency of the payment
+        let plan = "";
+        let ref = "{{ payment.ref }}"; // Unique payment reference
+        let amount = "{{ amount_value }}"; // Amount in kobo (e.g., NGN 1,000 = 100000 kobo)
+
+        // Set up the payment object
+        let obj = {
+            key: "{{ paystack_pub_key }}", // Public key for your Paystack account
+            email: "{{ payment.email }}", // Customer's email
+            amount: amount, // Amount in kobo
+            ref: ref, // Payment reference
+            callback: function (response) {
+                // Redirect to verify the payment after successful transaction
+                window.location.href = "{% url 'verify_payment' payment.ref order.slug %}";
+            },
+            onClose: function () {
+                alert("Transaction was not completed, window closed.");
+            }
+        };
+
+        // Optional fields
+        if (Boolean(currency)) {
+            obj.currency = currency.toUpperCase(); // Set the currency
+        }
+
+        if (Boolean(plan)) {
+            obj.plan = plan; // Attach a subscription plan if applicable
+        }
+
+        // Include split payment configuration
+        obj.subaccount = "{{ payment.sub_account_ID }}"; // Vendor's subaccount ID
+        obj.bearer = "account"; // Specify who bears the transaction fee (account = vendor)
+
+        // Initialize the Paystack payment pop-up
+        var handler = PaystackPop.setup(obj);
+        handler.openIframe(); // Open the payment pop-up
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block content %}
+{% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+        <i class="fa-solid fa-thumbs-up"></i> {{ message }}
+    </div>
+{% endfor %}
+
+{% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        <ul class="text-center">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+
+
+
+        <!-- page-title -->
+        <div class="tf-page-title style-2">
+            <div class="container-full">
+                <div class="heading text-center">New Product</div>
+            </div>
+        </div>
+        <!-- /page-title -->
+    
+        <section class="flat-spacing-10">
+            <div class="container">
+                <div class="tf-grid-layout lg-col-2 tf-login-wrap">
+                    <div class="tf-login-form">
+                        
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <h5 class="mb_36">List New Product</h5>
+                            <div>
+                                <div class="tf-field style-1 mb_15">
+                                    <label for="formGroupExampleInput" class="form-label">Name *</label>
+                                    {{form.name}}
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Price *
+                                    {{form.price}}
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Discount(%) 
+                                    {{form.discount}}
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Stock
+                                    {{form.stock}}
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Image *
+                                    {{form.image}}
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Second Image 
+                                    {{form.image_2}}
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Third Image 
+                                    {{form.image_3}}
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Fourth Image
+                                    {{form.image_4}}
+                                </div>
+                                
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Sizes Available
+                                    {{form.sizes}}
+                                </div>
+                                
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Select Colour(s) *
+                                    
+                                        {{ form.non_field_errors }}
+                                        <select name="colours" id="colours" multiple class="form-select">
+                                          {% for colour in form.colours.field.queryset %}
+                                            <option value="{{ colour.id }}" 
+                                                    {% if colour in form.colours.value %}selected{% endif %}>
+                                              {{ colour }}
+                                            </option>
+                                          {% endfor %}
+                                        </select>
+                                      
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Description *
+                                    {{form.description}}
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Return Policy *
+                                    {{form.return_policy}}
+                                </div>
+                                <div class="tf-field style-1 mb_30">
+                                    <label for="formGroupExampleInput" class="form-label">Refund Policy *
+                                    {{form.refund_policy}}
+                                </div>
+                                
+                                    <div class="">
+                                        <button type="submit" class="tf-btn w-100 radius-3 btn-fill animate-hover-btn justify-content-center">Save Product</button>
+                                    </div>
+                                
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tf-login-content">
+                        <h5 class="mb_36">Edit Product</h5>
+                        <p class="mb_20">If you have any issues, don't hesitate to contact us</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+{% endblock content %}

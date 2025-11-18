@@ -1,0 +1,869 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        <ul class="text-center">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+
+{% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+                <p class="text-center fs-2">{{ message }}</p>
+            </div>
+        {% endfor %}
+        <!-- Start of Main -->
+        <main class="main mb-10 pb-1">
+            <!-- Start of Breadcrumb -->
+            <nav class="breadcrumb-nav container">
+                <ul class="breadcrumb bb-no">
+                    <li><a href="demo1.html">Home</a></li>
+                    <li>Products</li>
+                </ul>
+                
+            </nav>
+            <!-- End of Breadcrumb -->
+
+            <!-- Start of Page Content -->
+            <div class="page-content">
+                <div class="container">
+                    <div class="row gutter-lg">
+                        <div class="main-content">
+                            <div class="product product-single row">
+                                <div class="col-md-6 mb-6">
+                                    <div class="product-gallery product-gallery-sticky">
+                                        <div class="swiper-container product-single-swiper swiper-theme nav-inner" data-swiper-options="{
+                                            'navigation': {
+                                                'nextEl': '.swiper-button-next',
+                                                'prevEl': '.swiper-button-prev'
+                                            }
+                                        }">
+                                            <div class="swiper-wrapper row cols-1 gutter-no">
+                                                <div class="swiper-slide">
+                                                    <figure class="product-image">
+                                                        <img src="{{product.image.url}}"
+                                                            data-zoom-image="{{product.image.url}}"
+                                                            alt="{{product.name}} image" width="800" height="900">
+                                                    </figure>
+                                                </div>
+                                                {% if product.image_2 %}
+                                                <div class="swiper-slide">
+                                                    <figure class="product-image">
+                                                        <img src="{{product.image_2.url}}"
+                                                            data-zoom-image="{{product.image_2.url}}"
+                                                            alt="{{product.name}} image" width="488" height="549">
+                                                    </figure>
+                                                </div>
+                                                {% endif %}
+                                                {% if product.image_3 %}
+                                                <div class="swiper-slide">
+                                                    <figure class="product-image">
+                                                        <img src="{{product.image_3.url}}"
+                                                            data-zoom-image="{{product.image_3.url}}"
+                                                            alt="{{product.name}} image" width="488" height="549">
+                                                    </figure>
+                                                </div>
+                                                {% endif %}
+                                                {% if product.image_4 %}
+                                                <div class="swiper-slide">
+                                                    <figure class="product-image">
+                                                        <img src="{{product.image_4.url}}"
+                                                            data-zoom-image="{{product.image_4.url}}"
+                                                            alt="{{product.name}} image" width="488" height="549">
+                                                    </figure>
+                                                </div>
+                                                {% endif %}
+                                                
+                                            </div>
+                                            <button class="swiper-button-next"></button>
+                                            <button class="swiper-button-prev"></button>
+                                            <a href="#" class="product-gallery-btn product-image-full"><i class="w-icon-zoom"></i></a>
+                                        </div>
+                                        <div class="product-thumbs-wrap swiper-container" data-swiper-options="{
+                                            'navigation': {
+                                                'nextEl': '.swiper-button-next',
+                                                'prevEl': '.swiper-button-prev'
+                                            }
+                                        }">
+                                            <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="{{product.image.url}}"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
+                                                {% if product.image_2 %}
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="{{product.image_2.url}}"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
+                                                {% endif %}
+                                                {% if product.image_3 %}
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="{{product.image_3.url}}"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
+                                                {% endif %}
+                                                {% if product.image_4 %}
+                                                <div class="product-thumb swiper-slide">
+                                                    <img src="{{product.image_4.url}}"
+                                                        alt="Product Thumb" width="800" height="900">
+                                                </div>
+                                                {% endif %}
+                                                
+                                            </div>
+                                            <button class="swiper-button-next"></button>
+                                            <button class="swiper-button-prev"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4 mb-md-6">
+                                    <div class="product-details" data-sticky-options="{'minWidth': 767}">
+                                        <h1 class="product-title">{{product.name|title}}</h1>
+                                        <div class="product-bm-wrapper">
+                                            <figure class="brand">
+                                                <img src="{{product.vendor.company_logo.url}}" alt="Brand"
+                                                    width="102" height="48" />
+                                            </figure>
+                                            <div class="product-meta">
+                                                <div class="product-categories">
+                                                    Category:
+                                                    <span class="product-category"><a href="#">{{product.vendor.company_category}}</a></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr class="product-divider">
+
+                                        {% if product.discount %}
+                                        <p class="fs-2 text-decoration-line-through p-3">₦ {{product.price}}.</p>  <div class="product-price"><ins class="new-price">₦{{product.discounted_price}}</ins></div>
+                                        {% else %}
+                                        <div class="product-price"><ins class="new-price">₦{{product.price}}</ins></div>
+                                        {% endif %}
+                                        <div class="ratings-container">
+                                            <div class="ratings-full" >
+                                                <span class="ratings" style="width: {{avg_rating_percentage}}%;"></span>
+                                                <span class="tooltiptext tooltip-top"></span>
+                                            </div>
+                                            <a href="#product-tab-reviews" class="rating-reviews scroll-to">({{reviews_total}}
+                                                {% if reviews_total == 1 %}Review {% else %}Reviews{% endif %} )</a>
+                                        </div>
+                                       
+
+                                        <hr class="product-divider">
+                                    <form method="POST" action="{% url 'add_to_cart' product.slug %}">
+                                            {% csrf_token %}
+                                            <div class="product-form product-variation-form product-color-swatch">
+                                                <label>Color:</label>
+                                                {% for color in product.colours.all %}
+                                                <div class="d-flex align-items-center product-variations">
+                                                    <label class="color-label">
+                                                        <input type="radio" name="color" value="{{ color.id }}" required>
+                                                        <span class="color" style="background-color: {{ color.color|lower }}; "></span>
+                                                    </label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                            
+                                        <div class="product-form product-variation-form product-size-swatch">
+                                            <label class="size-label">Size:</label>
+                                            {% for size in product.sizes.all  %}
+                                            <div class="flex-wrap d-flex align-items-center product-variations">
+                                                <label class="size-label">
+                                                    <input type="radio" name="size" value="{{ size.id }}" required>
+                                                    <span class="size">{{ size }}</span>
+                                                </label>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    
+
+                                        <div class="fix-bottom product-sticky-content sticky-content">
+                                            <div class="product-form container">
+                                                <div class="product-qty-form">
+                                                    <div class="input-group">
+                                                        <input placeholder="1" name="quantity" class=" form-control" type="number" min="1"
+                                                            max="10">
+                                                        
+                                                    </div>
+                                                </div>
+                                                {% if product.stock != 0  %}
+                                                <a href="{% url 'add_to_cart' product.slug %}"> <button class="btn btn-primary ">
+                                                    <i class="w-icon-cart"></i>
+                                                    <span>Add to Cart</span>
+                                                </button>
+                                                {% else %}
+                                                <p class="fs-2 text-danger-emphasis">Out Of Stock</p>
+                                                {% endif %}
+                                            </a>
+                                            </div>
+                                        </form>
+                                        </div>
+
+                                        <div class="social-links-wrapper">
+                                            <div class="social-links">
+                                                <div class="social-icons social-no-color border-thin">
+                                                    <a href="#" class="social-icon social-facebook w-icon-facebook"></a>
+                                                    <a href="#" class="social-icon social-twitter w-icon-twitter"></a>
+                                                    <a href="#"
+                                                        class="social-icon social-pinterest fab fa-pinterest-p"></a>
+                                                    <a href="#" class="social-icon social-whatsapp fab fa-whatsapp"></a>
+                                                    <a href="#"
+                                                        class="social-icon social-youtube fab fa-linkedin-in"></a>
+                                                </div>
+                                            </div>
+                                            <span class="divider d-xs-show"></span>
+                                            <div class="product-link-wrapper d-flex">
+                                                <a href="{% url 'add-to-wishlist' product.slug %}"
+                                                    class="btn-product-icon w-icon-heart"><span></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="tab tab-nav-boxed tab-nav-underline product-tabs">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a href="#product-tab-description" class="nav-link active">Description</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#product-tab-specification" class="nav-link">Specification</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#product-tab-vendor" class="nav-link">Vendor Info</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#product-tab-reviews" class="nav-link">Customer Reviews ({{reviews_total}})</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="product-tab-description">
+                                        <div class="row mb-4">
+                                            <div class="col-md-6 mb-5">
+                                                <h4 class="title tab-pane-title font-weight-bold mb-2">Detail</h4>
+                                                <p class="mb-4">{{product.description}}</p>
+                                               
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="row cols-md-3">
+                                            <div class="mb-3">
+                                                <h5 class="sub-title font-weight-bold"><span class="mr-3">1.</span>
+                                                    Delivery fee not included </h5>
+                                                <p class="detail pl-5">Delivery fee varies according to area. </p>
+                                            </div>
+                                            <div class="mb-3">
+                                                <h5 class="sub-title font-weight-bold"><span>2.</span>Free and Easy
+                                                    Returns</h5>
+                                                <p class="detail pl-5">We guarantee our products and you could get a full refund anytime you want within 10 days.</p>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="product-tab-specification">
+                                        <ul class="list-none">
+                                            <li>
+                                                <label>Model</label>
+                                                <p>Skysuite 320</p>
+                                            </li>
+                                            <li>
+                                                <label>Color</label>
+                                                <p>Black</p>
+                                            </li>
+                                            <li>
+                                                <label>Size</label>
+                                                <p>Large, Small</p>
+                                            </li>
+                                            <li>
+                                                <label>Guarantee Time</label>
+                                                <p>3 Months</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-pane" id="product-tab-vendor">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6 mb-4">
+                                                <figure class="vendor-banner br-sm">
+                                                    <img src="{% static 'images/vendor.jpg' %}"
+                                                        alt="Vendor Banner" width="610" height="295"
+                                                        style="background-color: #353B55;" />
+                                                </figure>
+                                            </div>
+                                            <div class="col-md-6 pl-2 pl-md-6 mb-4">
+                                                <div class="vendor-user">
+                                                    <figure class="vendor-logo mr-4">
+                                                        <a href="#">
+                                                            <img src="{{product.vendor.company_logo.url}}"
+                                                                alt="Vendor Logo" width="80" height="80" />
+                                                        </a>
+                                                    </figure>
+                                                    <div>
+                                                        <div class="vendor-name"><a href="#">{{product.vendor.company_name|title}}</a></div>
+                                                        <div class="ratings-container">
+                                                            <div class="ratings-full">
+                                                                <span class="ratings" style="width: 90%;"></span>
+                                                                <span class="tooltiptext tooltip-top"></span>
+                                                            </div>
+                                                            <a href="#" class="rating-reviews">(32 Reviews)</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="vendor-info list-style-none">
+                                                    <li class="store-name">
+                                                        <label>Category:</label>
+                                                        <span class="detail">{{product.vendor.company_category}}</span>
+                                                    </li>
+                                                    <li class="store-address">
+                                                        <label>Address:</label>
+                                                        <span class="detail">{{product.vendor.company_address}}</span>
+                                                    </li>
+                                                    <li class="store-phone">
+                                                        <label>Phone:</label>
+                                                        <a href="#tel:">{{product.vendor.company_phone_number}}</a>
+                                                    </li>
+                                                </ul>
+                                                <a href="{% url 'vendor-store' vendor.slug %}"
+                                                    class="btn btn-dark btn-link btn-underline btn-icon-right">Visit
+                                                    Store<i class="w-icon-long-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <p class="mb-5">{{product.vendor.company_description}}
+                                        </p>
+                                        
+                                    </div>
+                                    <div class="tab-pane" id="product-tab-reviews">
+                                        <div class="row mb-4">
+                                            <div class="col-xl-4 col-lg-5 mb-4">
+                                                <div class="ratings-wrapper">
+                                                    <div class="avg-rating-container">
+                                                        <h4 class="avg-mark font-weight-bolder ls-50">{{avg_rating|floatformat:2}}</h4>
+                                                        <div class="avg-rating">
+                                                            <p class="text-dark mb-1">Average Rating</p>
+                                                            <div class="ratings-container">
+                                                                <div class="ratings-full">
+                                                                    <span class="ratings" style="width: {{avg_rating_percentage}}%;"></span>
+                                                                    <span class="tooltiptext tooltip-top"></span>
+                                                                </div>
+                                                                <a href="#" class="rating-reviews">({{reviews_total}}{% if reviews_total == 1  %} Review {% else %} Reviews {% endif %})</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ratings-list">
+                                                        <div class="ratings-container">
+                                                            <div class="ratings-full">
+                                                                <span class="ratings" style="width: 100%;"></span>
+                                                                <span class="tooltiptext tooltip-top"></span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-sm ">
+                                                                <span></span>
+                                                            </div>
+                                                            <div class="progress-value">
+                                                                <mark>{{five_stars_percentage}}%</mark>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ratings-container">
+                                                            <div class="ratings-full">
+                                                                <span class="ratings" style="width: 80%;"></span>
+                                                                <span class="tooltiptext tooltip-top"></span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-sm ">
+                                                                <span></span>
+                                                            </div>
+                                                            <div class="progress-value">
+                                                                <mark>{{four_stars_percentage}}%</mark>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ratings-container">
+                                                            <div class="ratings-full">
+                                                                <span class="ratings" style="width: 60%;"></span>
+                                                                <span class="tooltiptext tooltip-top"></span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-sm ">
+                                                                <span></span>
+                                                            </div>
+                                                            <div class="progress-value">
+                                                                <mark>{{three_stars_percentage}}%</mark>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ratings-container">
+                                                            <div class="ratings-full">
+                                                                <span class="ratings" style="width: 40%;"></span>
+                                                                <span class="tooltiptext tooltip-top"></span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-sm ">
+                                                                <span></span>
+                                                            </div>
+                                                            <div class="progress-value">
+                                                                <mark>{{two_stars_percentage}}%</mark>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ratings-container">
+                                                            <div class="ratings-full">
+                                                                <span class="ratings" style="width: 20%;"></span>
+                                                                <span class="tooltiptext tooltip-top"></span>
+                                                            </div>
+                                                            <div class="progress-bar progress-bar-sm ">
+                                                                <span></span>
+                                                            </div>
+                                                            <div class="progress-value">
+                                                                <mark>{{one_star_percentage}}%</mark>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-8 col-lg-7 mb-4">
+                                                <div class="review-form-wrapper">
+                                                    <h3 class="title tab-pane-title font-weight-bold mb-1">Submit Your
+                                                        Review</h3>
+                                                    <p class="mb-3">Your email address will not be published. Required
+                                                        fields are marked *</p>
+                                                    <form  method="POST" class="review-form" novalidate>
+                                                        {% csrf_token %}
+                                                        <div class="rating-form">
+                                                            <label for="rating">Your Rating Of This Product :</label>
+                                                            <span class="rating-stars" >
+                                                                <a class="star-1" href="#" data-value="1">&#9733;</a> <!-- Updated to show star icon -->
+                                                                <a class="star-2" href="#" data-value="2">&#9733;</a>
+                                                                <a class="star-3" href="#" data-value="3">&#9733;</a>
+                                                                <a class="star-4" href="#" data-value="4">&#9733;</a>
+                                                                <a class="star-5" href="#" data-value="5">&#9733;</a>
+                                                            </span>
+                                                            
+                                                        </div>
+                                                        <div class="invalid-feedback">
+                                                            Please select a star
+                                                          </div>
+                                                        {{form.review_stars}}
+                                                        {{form.review}}
+                                                        <div class="row gutter-md">
+                                                            <div class="col-md-6">
+                                                                {{form.name}}
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                {{form.email}}
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <button type="submit" class="btn btn-dark">Submit
+                                                            Review</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function () {
+                                                const form = document.querySelector('.review-form');
+                                                const ratingInput = document.querySelector('input#rating');
+                                            
+                                                form.addEventListener('submit', function (e) {
+                                                    if (!ratingInput.value) {
+                                                        e.preventDefault();
+                                                        alert('Please provide a rating before submitting.');
+                                                    }
+                                                });
+                                            
+                                                const stars = document.querySelectorAll('.rating-stars a');
+                                                stars.forEach(star => {
+                                                    star.addEventListener('click', function (e) {
+                                                        e.preventDefault();
+                                                        const ratingValue = this.dataset.value;
+                                                        ratingInput.value = ratingValue;
+                                            
+                                                        stars.forEach(s => s.classList.remove('active'));
+                                                        for (let i = 0; i < ratingValue; i++) {
+                                                            stars[i].classList.add('active');
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                            
+
+                                        </script>
+                                        <div class="tab tab-nav-boxed tab-nav-outline tab-nav-center">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item">
+                                                    <a href="#show-all" class="nav-link active">Show All</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#highest-rating" class="nav-link">Highest Rating</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="#lowest-rating" class="nav-link">Lowest Rating</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="show-all">
+                                                    <ul class="comments list-style-none">
+                                                        <li class="comment">
+                                                            {% for review in reviews %}
+                                                            <div class="comment-body">
+                                                                <div class="comment-content">
+                                                                    <h4 class="comment-author">
+                                                                        <a href="#">{{review.name|title}}</a>
+                                                                        <span class="comment-date">{{review.date}}</span>
+                                                                    </h4>
+                                                                    <div class="ratings-container comment-rating">
+                                                                        <div class="ratings-full">
+                                                                            <span class="ratings"
+                                                                                style="width: {{review.stars}}%;"></span>
+                                                                            <span
+                                                                                class="tooltiptext tooltip-top"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p>{{review.review|capfirst}}</p>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            {% endfor %}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="tab-pane" id="highest-rating">
+                                                    <ul class="comments list-style-none">
+                                                        <li class="comment">
+                                                            {% for review_highest in reviews_highest_rating  %}
+                                                            <div class="comment-body">
+                                                                <div class="comment-content">
+                                                                    <h4 class="comment-author">
+                                                                        <a href="#">{{review_highest.name|title}}</a>
+                                                                        <span class="comment-date">{{review_highest.date}}</span>
+                                                                    </h4>
+                                                                    <div class="ratings-container comment-rating">
+                                                                        <div class="ratings-full">
+                                                                            <span class="ratings"
+                                                                                style="width: {{review_highest.stars}}%;"></span>
+                                                                            <span
+                                                                                class="tooltiptext tooltip-top"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p>{{review_highest.review|capfirst}}</p>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            {% endfor %}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="tab-pane" id="lowest-rating">
+                                                    <ul class="comments list-style-none">
+                                                        <li class="comment">
+                                                            {% for review_lowest in reviews_lowest_rating  %}
+                                                            <div class="comment-body">
+                                                                <div class="comment-content">
+                                                                    <h4 class="comment-author">
+                                                                        <a href="#">{{review_lowest.name|title}}</a>
+                                                                        <span class="comment-date">{{review_lowest.date}}</span>
+                                                                    </h4>
+                                                                    <div class="ratings-container comment-rating">
+                                                                        <div class="ratings-full">
+                                                                            <span class="ratings"
+                                                                                style="width: {{review_lowest.stars}}%;"></span>
+                                                                            <span
+                                                                                class="tooltiptext tooltip-top"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p>{{review_lowest.review|capfirst}}</p>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            {% endfor %}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <section class="vendor-product-section">
+                                <div class="title-link-wrapper mb-4">
+                                    <h4 class="title text-left">More Products From This Vendor</h4>
+                                    <a href="{% url 'vendor-store' vendor.slug %}" class="btn btn-dark btn-link btn-slide-right btn-icon-right">More
+                                        Products<i class="w-icon-long-arrow-right"></i></a>
+                                </div>
+                                <div class="swiper-container swiper-theme" data-swiper-options="{
+                                    'spaceBetween': 20,
+                                    'slidesPerView': 2,
+                                    'breakpoints': {
+                                        '576': {
+                                            'slidesPerView': 3
+                                        },
+                                        '768': {
+                                            'slidesPerView': 4
+                                        },
+                                        '992': {
+                                            'slidesPerView': 3
+                                        }
+                                    }
+                                }">
+                                    <div class="swiper-wrapper row cols-lg-3 cols-md-4 cols-sm-3 cols-2">
+                                        {% for product in products %}
+                                        <div class="swiper-slide product">
+                                            <figure class="product-media">
+                                                <a href="{% url 'product-detail' product.slug %}">
+                                                    <img src="{{product.image.url}}" alt="Product"
+                                                        width="300" height="338" />
+                                                    <img src="{{product.image.url}}" alt="Product"
+                                                        width="300" height="338" />
+                                                </a>
+                                                <div class="product-action-vertical">
+                                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
+                                                        title="Add to cart"></a>
+                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                        title="Add to wishlist"></a>
+                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                        title="Add to Compare"></a>
+                                                </div>
+                                                <div class="product-action">
+                                                    <a href="{% url 'product-detail'  product.slug %}" class="btn-product " title="View">
+                                                        View</a>
+                                                </div>
+                                            </figure>
+                                            <div class="product-details">
+                                                <div class="product-cat"><a href="{% url 'product-detail' product.slug %}">{{product.vendor.company_category}}</a>
+                                                </div>
+                                                <h4 class="product-name"><a href="{% url 'product-detail' product.slug %}">{{product.name|title}}</a>
+                                                </h4>
+                                                <div class="ratings-container">
+                                                    <div class="ratings-full">
+                                                        <span class="ratings" style="width: 100%;"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    </div>
+                                                    <a href="#" class="rating-reviews">(3 reviews)</a>
+                                                </div>
+                                                <div class="product-pa-wrapper">
+                                                    {% if product.discount %}
+                                                    <div class="product-price ">₦ {{product.price}}</div> <div class="product-price text-decoration-line-through ms-4">₦ {{product.discounted_price}}</div>
+                                                    {% else %}
+                                                    <div class="product-price">₦ {{product.price}}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <!-- End of Main Content -->
+                        <aside class="sidebar product-sidebar sidebar-fixed right-sidebar sticky-sidebar-wrapper">
+                            <div class="sidebar-overlay"></div>
+                            <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
+                            <a href="#" class="sidebar-toggle d-flex d-lg-none"><i class="fas fa-chevron-left"></i></a>
+                            <div class="sidebar-content scrollable">
+                                <div class="sticky-sidebar">
+                                    <div class="widget widget-icon-box mb-6">
+                                        <div class="icon-box icon-box-side">
+                                            <span class="icon-box-icon text-dark">
+                                                <i class="w-icon-truck"></i>
+                                            </span>
+                                            <div class="icon-box-content">
+                                                <h4 class="icon-box-title">Delivery</h4>
+                                                <p>Delivery fee not included</p>
+                                            </div>
+                                        </div>
+                                        <div class="icon-box icon-box-side">
+                                            <span class="icon-box-icon text-dark">
+                                                <i class="w-icon-bag"></i>
+                                            </span>
+                                            <div class="icon-box-content">
+                                                <h4 class="icon-box-title">Secure Payment</h4>
+                                                <p>We ensure secure payment</p>
+                                            </div>
+                                        </div>
+                                        <div class="icon-box icon-box-side">
+                                            <span class="icon-box-icon text-dark">
+                                                <i class="w-icon-money"></i>
+                                            </span>
+                                            <div class="icon-box-content">
+                                                <h4 class="icon-box-title">Money Back Guarantee</h4>
+                                                <p>Refund within 10 days</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End of Widget Icon Box -->
+
+                                    <div class="widget widget-banner mb-9">
+                                        <div class="banner banner-fixed br-sm">
+                                            <figure>
+                                                <img src="{{highest_discount_product.image.url}}" alt="Banner" width="266"
+                                                    height="220" style="background-color: #1D2D44;" />
+                                            </figure>
+                                            <div class="banner-content">
+                                                <div class="banner-price-info font-weight-bolder text-dark lh-1 ls-25">
+                                                    {{highest_discount_product.discount}}<sup class="font-weight-bold">%</sup><sub
+                                                        class="font-weight-bold text-uppercase ls-25">Off</sub>
+                                                </div>
+                                                <a href="{% url 'product-detail' highest_discount_product.slug %}">
+                                                    <h4 class="banner-subtitle text-white font-weight-bolder text-dark mb-0 ">
+                                                        {{highest_discount_product.name|title}}</h4>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End of Widget Banner -->
+
+                                    <div class="widget widget-products">
+                                        <div class="title-link-wrapper mb-2">
+                                            <h4 class="title title-link font-weight-bold">Products from other Vendors</h4>
+                                        </div>
+
+                                        <div class="swiper nav-top">
+                                            
+                                            
+                                                <div class="swiper-wrapper">
+                                                    {% for product in all_products %}
+                                                    <div class="widget-col swiper-slide">
+                                                        <div class="product product-widget">
+                                                            <figure class="product-media">
+                                                                <a href="{% url 'product-detail' product.slug %}">
+                                                                    <img src="{{product.image.url}}" alt="Product"
+                                                                        width="100" height="113" />
+                                                                </a>
+                                                            </figure>
+                                                            <div class="product-details">
+                                                                <h4 class="product-name">
+                                                                    <a href="{% url 'product-detail' product.slug %}">{{product.name|title|truncatewords:3}}</a>
+                                                                </h4>
+                                                                <div class="ratings-container">
+                                                                    <div class="ratings-full">
+                                                                        <span class="ratings" style="width: {{product.avg_rating_percentage}}%;"></span>
+                                                                        <span class="tooltiptext tooltip-top"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="product-price">{% if product.discount %}₦{{product.price}} <p class="text-decoration-line-through">₦{{product.discounted_price}}</p></div>
+                                                                    {% else %}
+                                                                    <div class="product-price">₦{{product.price}}</div>
+                                                                    {% endif %}</div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                        <!-- End of Sidebar -->
+                    </div>
+                </div>
+            </div>
+            <!-- End of Page Content -->
+        </main>
+        <!-- End of Main -->
+
+        <!-- Start of Footer -->
+        <footer class="footer appear-animate" data-animation-options="{
+            'name': 'fadeIn'
+        }">
+           
+            
+        </footer>
+        <!-- End of Footer -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    
+
+    <!-- Start of Scroll Top -->
+    <a id="scroll-top" class="scroll-top" href="#top" title="Top" role="button"> <i class="w-icon-angle-up"></i> <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70"> <circle id="progress-indicator" fill="transparent" stroke="#000000" stroke-miterlimit="10" cx="35" cy="35" r="34" style="stroke-dasharray: 16.4198, 400;"></circle> </svg> </a>
+    <!-- End of Scroll Top -->
+
+    <!-- Start of Mobile Menu -->
+    <div class="mobile-menu-wrapper">
+        <div class="mobile-menu-overlay"></div>
+        <!-- End of .mobile-menu-overlay -->
+
+        <a href="#" class="mobile-menu-close"><i class="close-icon"></i></a>
+        <!-- End of .mobile-menu-close -->
+
+        <div class="mobile-menu-container scrollable">
+            <form action="#" method="get" class="input-wrapper">
+                <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search"
+                    required />
+                <button class="btn btn-search" type="submit">
+                    <i class="w-icon-search"></i>
+                </button>
+            </form>
+            <!-- End of Search Form -->
+            <div class="tab">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a href="#main-menu" class="nav-link active">Main Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#categories" class="nav-link">Categories</a>
+                    </li>
+                </ul>
+            </div>
+            
+        </div>
+    </div>
+    <!-- End of Mobile Menu -->
+
+    <!-- Root element of PhotoSwipe. Must have class pswp -->
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+        <!-- Background of PhotoSwipe. It's a separate element as animating opacity is faster than rgba(). -->
+        <div class="pswp__bg"></div>
+
+        <!-- Slides wrapper with overflow:hidden. -->
+        <div class="pswp__scroll-wrap">
+
+            <!-- Container that holds slides.
+			PhotoSwipe keeps only 3 of them in the DOM to save memory.
+			Don't modify these 3 pswp__item elements, data is added later on. -->
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+
+            <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+            <div class="pswp__ui pswp__ui--hidden">
+
+                <div class="pswp__top-bar">
+
+                    <!--  Controls are self-explanatory. Order can be changed. -->
+
+                    <div class="pswp__counter"></div>
+
+                    <button class="pswp__button pswp__button--close" aria-label="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--zoom" aria-label="Zoom in/out"></button>
+
+                    <div class="pswp__preloader">
+                        <div class="loading-spin"></div>
+                    </div>
+                </div>
+
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div>
+                </div>
+
+                <button class="pswp__button--arrow--left" aria-label="Previous (arrow left)"></button>
+                <button class="pswp__button--arrow--right" aria-label="Next (arrow right)"></button>
+
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of PhotoSwipe -->
+    
+{% endblock content %}

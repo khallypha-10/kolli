@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+        <!-- Start of Main -->
+        <main class="main">
+            <!-- Start of Breadcrumb -->
+            <nav class="breadcrumb-nav">
+                <div class="container">
+                    <ul class="breadcrumb bb-no">
+                        <li><a href="demo1.html">Home</a></li>
+                        <li><a href="#">Vendors</a></li>
+                        
+                    </ul>
+                </div>
+            </nav>
+            <!-- End of Breadcrumb -->
+
+            <!-- Start of Pgae Contetn -->
+            <div class="page-content mb-8">
+                <div class="container">
+
+                    <div class="row gutter-lg">
+                        <aside class="sidebar vendor-sidebar sticky-sidebar-wrapper left-sidebar sidebar-fixed">
+                            <div class="sidebar-overlay"></div>
+                            <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
+                            <a href="#" class="sidebar-toggle"><i class="fas fa-chevron-right"></i></a>
+                            <div class="sidebar-content">
+                                <div class="sticky-sidebar">
+                                    <div class="widget widget-search-form">
+                                        <div class="widget-body">
+                                            <form action="#" method="GET" class="input-wrapper input-wrapper-inline">
+                                                <input type="text" class="form-control" placeholder="Search ..." autocomplete="off" required="">
+                                                <button class="btn btn-search"><i class="w-icon-search"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- End of Widget -->
+                                    
+                                    <div class="widget widget-filter">
+                                        <h4 class="widget-title">Filter By Category</h4>
+                                        <div class="widget-body">
+                                            <form class="select-box" method="GET" action="{% url 'vendors-list' %}">
+                                                {% csrf_token %}
+                                                <select name="category" class="form-control" onchange="this.form.submit()">
+                                                    <option value="" {% if not selected_category %}selected{% endif %}>Choose Category...</option>
+                                                    <option value="Furniture" {% if selected_category == "Furniture" %}selected{% endif %}>Furniture</option>
+                                                    <option value="Fashion" {% if selected_category == "Fashion" %}selected{% endif %}>Fashion</option>
+                                                    <option value="Electronics" {% if selected_category == "Electronics" %}selected{% endif %}>Electronics</option>
+                                                    <option value="Accessories" {% if selected_category == "Accessories" %}selected{% endif %}>Accessories</option>
+                                                    <option value="Kitchen" {% if selected_category == "Kitchen" %}selected{% endif %}>Home & Kitchen</option>
+                                                    <option value="Health" {% if selected_category == "Health" %}selected{% endif %}>Healthy & Beauty</option>
+                                                    <option value="Toys & Games" {% if selected_category == "Toys & Games" %}selected{% endif %}>Toys & Games</option>
+                                                    <option value="Cosmetics" {% if selected_category == "Cosmetics" %}selected{% endif %}>Cosmetics</option>
+                                                    <option value="Others" {% if selected_category == "Others" %}selected{% endif %}>Others</option>
+                                                </select>
+                                                
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="widget widget-filter">
+                                        <h4 class="widget-title">Filter By Location</h4>
+                                        <div class="widget-body">
+                                            
+                                            <form class="select-box">
+                                                <select name="state" class="form-control mb-3" onchange="this.form.submit()">
+                                                    <option value="" {% if not selected_state %}selected{% endif %}>Choose State...</option>
+                                                    {% for state in nigerian_states %}
+                                                        <option value="{{ state }}" {% if selected_state == state %}selected{% endif %}>{{ state }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </form>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- End of Widget -->
+                                </div>
+                                <!-- End of Sticky Sidebar -->
+                            </div>
+                            <!-- End of Sidebar Content -->
+                        </aside>
+                        <!-- End of Sidebar -->
+
+                        <div class="main-content">
+                            <div class="toolbox wcfm-toolbox">
+                                <div class="toolbox-left">
+                                    <form class="select-box toolbox-item">
+                                        <select name="orderby" class="form-control">
+                                            <option value="old-new" selected="selected">Sort by newness: old to new</option>
+                                            <option value="new-old">Sort by newness: new to old</option>
+                                            <option value="low-high">Sort by average rating: low to high</option>
+                                            <option value="high-low">Sort by average rating: high to low</option>
+                                            <option value="old-new">Sort Alphabetical: A to Z</option>
+                                            <option value="old-new">Sort Alphabetical: Z to A</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <div class="toolbox-right">
+                                    <div class="toolbox-item">
+                                        <label class="showing-info">Showing {{ start_index }} - {{ end_index }} of {{vendors_total}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Toolbox -->
+
+                            <div class="row cols-sm-2">
+                                {% for vendor in vendors %}
+                                <div class="store-wrap mb-4">
+                                    <div class="store store-grid store-wcfm">
+                                        <div class="store-header">
+                                            <figure class="store-banner">
+                                                <img src="{% static 'images/vendor.jpg' %}" alt="Vendor" width="400" height="194" style="background-color: #40475E">
+                                            </figure>
+                                        </div>
+                                        <!-- End of Store Header -->
+                                        <div class="store-content">
+                                            <h4 class="store-title">
+                                                <a href="vendor-dokan-store.html">{{vendor.company_name}}</a>
+                                            </h4>
+                                            <div class="ratings-container">
+                                                <div class="ratings-full">
+                                                    <span class="ratings" style="width: 100%;"></span>
+                                                    <span class="tooltiptext tooltip-top"></span>
+                                                </div>
+                                            </div>
+                                            <ul class="seller-info-list list-style-none">
+                                                <li class="store-email">
+                                                    <a href="email:#">
+                                                        <i class="far fa-envelope"></i>
+                                                        {{vendor.company_email}}
+                                                    </a>
+                                                </li>
+                                                <li class="store-phone">
+                                                    <a href="tel:123456789">
+                                                        <i class="w-icon-phone"></i>
+                                                        {{vendor.company_phone_number}}
+                                                    </a>
+                                                </li>
+                                                <li class="">
+                                                    <a href="#">
+                                                        <i class="fa-solid fa-list"></i>
+                                                        {{vendor.company_category}}
+                                                    </a>
+                                                </li>
+                                                <li class="">
+                                                    <a href="#">
+                                                        <i class="fa-solid fa-location-dot"></i>
+                                                        {{vendor.company_state}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- End of Store Content -->
+                                        <div class="store-footer">
+                                            <figure class="seller-brand">
+                                                <img src="{{vendor.company_logo.url}}" alt="Brand" width="80" height="80">
+                                            </figure>
+                                            <a href="#" class="btn btn-inquiry btn-rounded btn-icon-left"><i class="far fa-question-circle"></i>Inquiry</a>
+                                            <a href="#" class="btn btn-rounded btn-visit">Visit</a>
+                                        </div>
+                                        <!-- End of Store Footer -->
+                                    </div>
+                                    <!-- End of Store -->
+                                </div>
+                                {% endfor %}
+                               
+                            </div>
+                            <div class="toolbox toolbox-pagination justify-content-between">
+                               
+                                
+                                <ul class="pagination">
+                                    {% if vendors.has_previous %}
+                                    <li class="prev disabled">
+                                        <a href="?page={{vendors.previous_page_number}}&category={{ selected_category }}&state={{ selected_state }}" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                            <i class="w-icon-long-arrow-left"></i>Prev
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    {% for page in vendors.paginator.page_range %}
+                                    <li class="page-item active">
+                                        <a class="page-link" href="?page={{ page }}&category={{ selected_category }}&state={{ selected_state }}">{{ page }}</a>
+                                    </li>
+                                    {% endfor %}
+                                    {% if vendors.has_next %}
+                                    <li class="next">
+                                        <a href="?page={{vendors.next_page_number}}&category={{ selected_category }}&state={{ selected_state }}" aria-label="Next">
+                                            Next<i class="w-icon-long-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End of Main Content -->
+                    </div>
+                </div>
+            </div>
+{% endblock content %}

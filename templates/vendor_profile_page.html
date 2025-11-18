@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block content %}
+{% for message in messages %}
+            <div class="alert text-center {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+                <i class="fa-solid fa-thumbs-up"></i> {{ message }}
+            </div>
+        {% endfor %}
+
+        <!-- page-title -->
+        <div class="tf-page-title">
+            <div class="container-full">
+                <div class="heading text-center">Vendor Account</div>
+            </div>
+        </div>
+        <!-- /page-title -->
+        
+        <!-- page-cart -->
+        <section class="flat-spacing-11">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <ul class="my-account-nav">
+                            <li><span class="my-account-nav-item active">Dashboard</span></li>
+                            <li><a href="{% url 'vendor-products' user %}" class="my-account-nav-item">Products</a></li>
+                            <li><a href="{% url 'list-product' %}" class="my-account-nav-item">List A product</a></li>
+                            <li><a href="{% url 'orders-received' vendor %}" class="my-account-nav-item">
+                                Orders
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{orders_total}}
+                                      <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                  </a></li>
+                            <li><a href="{% url 'vendor-messages' vendor.slug %}" class="my-account-nav-item">
+                            Messages
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{vendor_messages}}
+                                  <span class="visually-hidden">unread messages</span>
+                                </span>
+                              </a></li>
+                            <li><a href="my-account-edit.html" class="my-account-nav-item">Delete Vendor Account</a></li>
+                            <li><a href="login.html" class="my-account-nav-item">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="my-account-content account-dashboard">
+                            <div class="mb_60">
+                                <h5 class="fw-5 mb_20"><h4 class="heading text-center"> Welcome {{vendor.company_name}}</h4></h5>
+                                <p>
+                                    From your account dashboard you can view your <a class="text_primary" href="my-account-orders.html">recent orders</a>, manage your <a class="text_primary" href="my-account-address.html">shipping and billing address</a>, and <a class="text_primary" href="my-account-edit.html">edit your password and account details</a>.
+                                </p>
+                                
+                                <!-- Vendor Dashboard Template (vendor-dashboard.html) -->
+                                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                                    <div id="vendorToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                        <div class="toast-header">
+                                            <strong class="me-auto">Notification</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                        </div>
+                                        <div class="toast-body text-bg-primary">
+                                            {{ request.session.vendor_notification }}
+                                            <p><a href="{% url 'vendor-messages' vendor.slug  %}" class="link-warning">View Messages</a></p>
+
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+   
+
+                                <!-- Vendor Dashboard Template (vendor-dashboard.html) -->
+                                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                                    <div id="vendorToastt" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                        <div class="toast-header">
+                                            <strong class="me-auto">Order Received</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                        </div>
+                                        <div class="toast-body text-bg-primary">
+                                            {{ request.session.vendor_order }}
+                                            <p><a href="{% url 'orders-received' vendor  %}" class="link-warning">View Orders</a></p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        // Check if there's a vendor notification
+                                        {% if request.session.vendor_notification %}
+                                            const toastElement = document.getElementById('vendorToast');
+                                            const toast = new bootstrap.Toast(toastElement, { delay: 20000 }); // Display for 20 seconds
+                                            toast.show();
+
+                                            // Clear session variable after showing the toast
+                                            fetch("{% url 'clear_notification' %}", { method: 'POST', headers: {'X-CSRFToken': '{{ csrf_token }}'} });
+                                        {% endif %}
+                                    });
+                                </script>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        // Check if there's a vendor notification
+                                        {% if request.session.vendor_order %}
+                                            const toastElement = document.getElementById('vendorToastt');
+                                            const toast = new bootstrap.Toast(toastElement, { delay: 20000 }); // Display for 60 seconds
+                                            toast.show();
+
+                                            // Clear session variable after showing the toast
+                                            fetch("{% url 'clear_notification_order' %}", { method: 'POST', headers: {'X-CSRFToken': '{{ csrf_token }}'} });
+                                        {% endif %}
+                                    });
+                                </script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- page-cart -->
+{% endblock content %}

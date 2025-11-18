@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}"{% endif %}>
+                <p class="text-center fs-2">{{ message }}</p>
+            </div>
+        {% endfor %}
+        <!-- page-title -->
+        <div class="tf-page-title">
+            <div class="container-full">
+                <div class="heading text-center">My Account</div>
+            </div>
+        </div>
+        <!-- /page-title -->
+        
+        <!-- page-cart -->
+        <section class="flat-spacing-11">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <ul class="my-account-nav">
+                            <li><span class="my-account-nav-item active">Dashboard</span></li>
+                            <li><a href="{% url 'user-orders' user %}" class="my-account-nav-item">Orders</a></li>
+                            <li><a href="{% url 'edit-user-address' user %}" class="my-account-nav-item">Edit Address</a></li>
+                            <li><a href="{% url 'wishlist' user %}" class="my-account-nav-item">Wishlist</a></li>
+                            {% if vendor %}
+                            <li><a href="{% url 'vendor-profile' user %}" class="my-account-nav-item">Vendor Page</a></li>
+                            {% endif %}
+                            <li><a href="login.html" class="my-account-nav-item">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="my-account-content account-dashboard">
+                            <div class="mb_60">
+                                <h5 class="fw-5 mb_20"><h4 class="heading text-center"> Welcome {{user}}</h4></h5>
+                                <p>
+                                    From your account dashboard you can view your <a class="text_primary" href="my-account-orders.html">recent orders</a>, manage your <a class="text_primary" href="my-account-address.html">shipping and billing address</a>, and <a class="text_primary" href="my-account-edit.html">edit your password and account details</a>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- page-cart -->
+{% endblock content %}
