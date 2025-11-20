@@ -557,7 +557,7 @@ def remove_from_cart(request, slug, colour, size):
         messages.info(request, "You do not have an active order")
         return redirect("cart", user=request.user)
 
-
+@login_required(login_url='login')
 def cart(request, user):
     carts = OrderItem.objects.filter(user=request.user, ordered=False).order_by('-id')
     total = 0
@@ -593,6 +593,7 @@ def add_to_wishlist(request, slug):
         messages.success(request, "This item was added to your wishlist.")
     return redirect("product-detail", slug=slug)
 
+@login_required(login_url='login')
 def wishlist(request, user):
     wishlists = Wishlist.objects.filter(user=request.user, ordered=False)
     context = {'wishlists': wishlists}

@@ -88,43 +88,6 @@
                         <li><a href="#" class="box-icon w_28 round social-tiktok bg_line"><i class="icon fs-12 icon-tiktok"></i></a></li>
                         <li><a href="#" class="box-icon w_28 round social-pinterest bg_line"><i class="icon fs-12 icon-pinterest-1"></i></a></li>
                     </ul>
-                    <div class="text-center overflow-hidden">
-                        <div dir="ltr" class="swiper tf-sw-top_bar" data-preview="1" data-space="0" data-loop="true" data-speed="1000" data-delay="2000">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <p class="top-bar-text fw-5">Spring Fashion Sale <a href="shop-default.html" title="all collection" class="tf-btn btn-line">Shop now<i class="icon icon-arrow1-top-left"></i></a></p>
-                                </div>
-                                <div class="swiper-slide">
-                                    <p class="top-bar-text fw-5">Summer sale discount off 70%</p>
-                                </div>
-                                <div class="swiper-slide">
-                                    <p class="top-bar-text fw-5">Time to refresh your wardrobe.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="top-bar-language tf-cur justify-content-end">
-
-
-                        <div class="tf-currencies">
-                            <select class="image-select center style-default type-currencies">
-                                <option data-thumbnail="images/country/fr.svg">EUR <span>€ | France</span></option>
-                                <option data-thumbnail="images/country/de.svg">EUR <span>€ | Germany</span></option>
-                                <option selected data-thumbnail="images/country/us.svg">USD <span>$ | United States</span></option>
-                                <option data-thumbnail="images/country/vn.svg">VND <span>₫ | Vietnam</span></option>
-                            </select>
-                        </div>
-                        <div class="tf-languages">
-                            <select class="image-select center style-default type-languages">
-                                <option>English</option>
-                                <option>العربية</option>
-                                <option>简体中文</option>
-                                <option>اردو</option>
-                            </select>
-                        </div>
-                        
-                    </div>
             </div>
             
            
@@ -382,7 +345,7 @@
         </a>
     </div>
     <div class="toolbar-item">
-        <a href="#login" data-bs-toggle="modal">
+        <a href="{% url 'profile' user %}" data-bs-toggle="modal">
             <div class="toolbar-icon">
                 <i class="icon-account"></i>
             </div>
@@ -390,10 +353,10 @@
         </a>
     </div>
     <div class="toolbar-item">
-        <a href="wishlist.html">
+        <a href="{% url 'wishlist' user %}">
             <div class="toolbar-icon">
                 <i class="icon-heart"></i>
-                <div class="toolbar-count">0</div>
+                <div class="toolbar-count">{{ user|wishlist_item_count }}</div>
             </div>
             <div class="toolbar-label">Wishlist</div>
         </a>
@@ -402,7 +365,7 @@
         <a href="#shoppingCart" data-bs-toggle="modal">
             <div class="toolbar-icon">
                 <i class="icon-bag"></i>
-                <div class="toolbar-count">1</div>
+                <div class="toolbar-count">{{ user|cart_item_count }}</div>
             </div>
             <div class="toolbar-label">Cart</div>
         </a>
@@ -419,52 +382,44 @@
         <div class="mb-body">
             <ul class="nav-ul-mb" id="wrapper-menu-navigation">
                 <li class="nav-mb-item">
-                    <a href="#dropdown-menu-one" class="collapsed mb-menu-link current" data-bs-toggle="collapse" aria-expanded="true" aria-controls="dropdown-menu-one">
+                    <a href="{% url 'home' %}" class="nav-mb-item" >
                         <span>Home</span>
                         <span class="btn-open-sub"></span>
                     </a>
-                    <div id="dropdown-menu-one" class="collapse">
-                        <ul class="sub-nav-menu" >
-                            <li><a href="index.html" class="sub-nav-link">Home Fashion 01</a></li>
-                            <li><a href="home-02.html" class="sub-nav-link">Home Fashion 02</a></li>
-                            <li><a href="home-03.html" class="sub-nav-link">Home Fashion 03</a></li>
-                            <li><a href="home-04.html" class="sub-nav-link">Home Fashion 04</a></li>
-                            <li><a href="home-05.html" class="sub-nav-link">Home Fashion 05</a></li>
-                            <li><a href="home-06.html" class="sub-nav-link">Home Fashion 06</a></li>
-                            <li><a href="home-07.html" class="sub-nav-link">Home Fashion 07</a></li>
-                            <li><a href="home-08.html" class="sub-nav-link">Home Fashion 08</a></li>
-                            <li><a href="home-giftcard.html" class="sub-nav-link">Home Gift Card</a></li>
-                            <li><a href="home-headphone.html" class="sub-nav-link">Home Headphone</a></li>
-                            <li><a href="home-multi-brand.html" class="sub-nav-link">Home Multi Brand</a></li>
-                            <li><a href="home-skincare.html" class="sub-nav-link">Home skincare</a></li>
-                            <li><a href="home-headphone.html" class="sub-nav-link">Home Headphone</a></li>
-                            <li><a href="home-giftcard.html" class="sub-nav-link">Home Gift Card</a></li>
-                            <li><a href="home-furniture.html" class="sub-nav-link">Home Furniture</a></li>
-                            <li><a href="home-furniture-02.html" class="sub-nav-link">Home Furniture 2</a></li>
-                            <li><a href="home-skateboard.html" class="sub-nav-link">Home Skateboard</a></li>
-                            <li><a href="home-stroller.html" class="sub-nav-link">Home Stroller</a></li>
-                            <li><a href="home-decor.html" class="sub-nav-link">Home Decor</a></li>
-                            <li><a href="home-electronic.html" class="sub-nav-link">Home Electronic</a></li>
-                            <li><a href="home-setup-gear.html" class="sub-nav-link">Home Setup Gear</a></li>
-                            <li><a href="home-dog-accessories.html" class="sub-nav-link">Home Dog Accessories</a></li>
-                            <li><a href="home-kitchen-wear.html" class="sub-nav-link">Home Kitchen Wear</a></li>
-                            <li><a href="home-phonecase.html" class="sub-nav-link">Home Phonecase</a></li>
-                            <li><a href="home-paddle-boards.html" class="sub-nav-link">Home Paddle Boards</a></li>
-                            <li><a href="home-glasses.html" class="sub-nav-link">Home Glasses</a></li>
-                            <li><a href="home-pod-store.html" class="sub-nav-link">Home POD Store</a></li>
-                            <li><a href="home-activewear.html" class="sub-nav-link">Home Activewear</a></li>
-                            <li><a href="home-handbag.html" class="sub-nav-link">Home Handbag</a></li>
-                            <li><a href="home-tee.html" class="sub-nav-link">Home Tee</a></li>
-                            <li><a href="home-sock.html" class="sub-nav-link">Home Sock</a></li>
-                            <li><a href="home-jewerly.html" class="sub-nav-link">Home Jewelry</a></li>
-                            <li><a href="home-sneaker.html" class="sub-nav-link">Home Sneaker</a></li>
-                            <li><a href="home-accessories.html" class="sub-nav-link">Home Accessories</a></li>
-                            <li><a href="home-grocery.html" class="sub-nav-link">Home Grocery</a></li>
-                            <li><a href="home-baby.html" class="sub-nav-link">Home Baby</a></li>
-                        </ul>
-                    </div>
-                    
                 </li>
+                <li class="nav-mb-item">
+                    <a href="{% url 'vendor-list' %}" class="nav-mb-item" >
+                        <span>Vendors</span>
+                        <span class="btn-open-sub"></span>
+                    </a>
+                </li>
+                <li class="nav-mb-item">
+                    <a href="{% url 'become-a-vendor' %}" class="nav-mb-item" >
+                        <span>Become A Vendor</span>
+                        <span class="btn-open-sub"></span>
+                    </a>
+                </li>
+                {% if not user.is_authenticated %}
+                <li class="nav-mb-item">
+                    <a href="{% url 'register' %}" class="nav-mb-item" >
+                        <span>Register</span>
+                        <span class="btn-open-sub"></span>
+                    </a>
+                </li>
+                <li class="nav-mb-item">
+                    <a href="{% url 'login' %}" class="nav-mb-item" >
+                        <span>Login</span>
+                        <span class="btn-open-sub"></span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-mb-item">
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit"  class="btn btn-dark">Log Out</button>
+                    </form>
+                </li>
+                {% endif %}
                 <li class="nav-mb-item">
                     <a href="#dropdown-menu-two" class="collapsed mb-menu-link current" data-bs-toggle="collapse" aria-expanded="true" aria-controls="dropdown-menu-two">
                         <span>Shop</span>
