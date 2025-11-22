@@ -125,7 +125,17 @@
                                     <a href="{% url 'become-a-vendor' %}" class="item-link">Become A Vendor</a>
                                     
                                 </li>
-                               
+                               {% if not user.is_authenticated %}
+        <div class="mb-bottom">
+            <a href="{% url 'login' %}" class="site-nav-icon"><i class="icon icon-account"></i>Login</a>
+        </div>
+        {% else %}
+        <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+            <div class="mb-bottom">
+                <button type="submit"  class="btn btn-dark">Log Out</button>
+            </div>
+        {% endif %}
                                 
                             </ul>
                         </nav>
@@ -380,6 +390,19 @@
                         <span>Become A Vendor</span>
                     </a>
                 </li>
+                {% if not user.is_authenticated %}
+                <li class="nav-mb-item">
+                    <div class="mb-bottom">
+                        <a href="{% url 'login' %}" class="site-nav-icon"><i class="icon icon-account"></i>Login</a>
+                    </div>
+                </li>
+                {% else %}
+                <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                    <div class="mb-bottom">
+                        <button type="submit"  class="btn btn-dark">Log Out</button>
+                    </div>
+                {% endif %}
                 <li class="nav-mb-item">
                     <a href="https://themeforest.net/item/ecomus-ultimate-html5-template/53417990?s_rank=3" class="mb-menu-link">Buy now</a>
                 </li>
@@ -429,7 +452,7 @@
             <div class="tf-search-sticky">
                 <form class="tf-mini-search-frm">
                     <fieldset class="text">
-                        <input type="text" placeholder="Search" class="" name="text" tabindex="0" value="" aria-required="true" required="">
+                        <input type="text" placeholder="Search" class="" name="text" tabindex="0" value="" aria-required="true" >
                     </fieldset>
                     <button class="" type="submit"><i class="icon-search"></i></button>
                 </form>
