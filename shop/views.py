@@ -286,7 +286,7 @@ def vendor_store(request, slug):
         avg_rating_percentage = 0
 
     context = {'vendor': vendor, 'ratings_count': ratings_count,  'sort_option': sort_option, 'products': products, 'ratings': ratings, 'avg_rating': avg_rating, 'avg_rating_percentage':avg_rating_percentage, 'reviews_total': reviews_total, 'form': form, 'rating_form': rating_form, 'top_rated_products': top_rated_products}
-    return render(request, "vendor-dokan-store.html", context)
+    return render(request, "vendor-dokan-storee.html", context)
 
 
 
