@@ -35,8 +35,14 @@ def register(request):
 
 @login_required(login_url='login')
 def profile(request, user):
-    user = User.objects.get(username=request.user)
-    vendor = BecomeAVendor.objects.get(user=user)
+    user = User.objects.get(username=request.user.username)
+    
+    # Check if user has a vendor profile
+    try:
+        vendor = BecomeAVendor.objects.get(user=user)
+    except BecomeAVendor.DoesNotExist:
+        vendor = None
+    
     context = {'user': user, 'vendor': vendor}
     return render(request, "my-account.html", context)
 
